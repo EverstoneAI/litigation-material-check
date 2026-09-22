@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>诉讼材料自检</title>
+<style>
+:root{--bg:#EDF1F7;--card:#FFFFFF;--ink:#17212E;--ink2:#55606F;--ink3:#8B95A3;--acc:#1F4E79;--acc2:#2E6DA4;--acc-soft:#EAF1F8;--line:#DCE3ED;--warn:#B4451F;--ok:#1F7A4D;--shadow:0 1px 2px rgba(20,40,70,.05),0 10px 28px rgba(20,40,70,.07)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;line-height:1.7}
+.hero{background:linear-gradient(135deg,#14355A 0%,#1F4E79 55%,#2E6DA4 100%);color:#fff;padding:34px 20px 64px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(620px 300px at 88% -70px,rgba(255,255,255,.16),transparent 70%),radial-gradient(520px 280px at 4% 140%,rgba(255,255,255,.09),transparent 70%);pointer-events:none}
+.hero-in{max-width:1200px;margin:0 auto;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;position:relative}
+.logo{width:54px;height:54px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.26);display:flex;align-items:center;justify-content:center;flex:none}
+.hero-t{flex:1;min-width:260px}
+h1{font-size:26px;margin:2px 0 6px;font-weight:700;letter-spacing:.02em}
+.sub{color:#D5E1ED;font-size:13.5px;margin:0;max-width:880px}
+.sub b{color:#fff;background:rgba(255,255,255,.16);padding:0 5px;border-radius:4px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding-top:6px}
+.chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);color:#EAF1F8;border-radius:999px;padding:3px 12px;font-size:12px;white-space:nowrap}
+.chip::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#79D1A4;margin-right:7px;vertical-align:1px}
+.wrap{max-width:1200px;margin:-36px auto 0;padding:0 20px 30px;position:relative}
+.bound{background:#FFF6EF;border:1px solid #EFD3BE;border-left:4px solid var(--warn);border-radius:12px;padding:12px 16px;font-size:13px;color:#7C3A22;font-weight:700;margin-bottom:16px;line-height:1.7;box-shadow:var(--shadow)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.panel h2{margin:0 0 6px;font-size:17px;display:flex;align-items:center;gap:10px;line-height:1.5}
+.panel h2::before{content:"";flex:none;width:6px;height:20px;border-radius:3px;background:linear-gradient(180deg,var(--acc2),var(--acc))}
+.panel .why{color:var(--ink3);font-size:12.5px;margin:0 0 12px}
+label{display:block;font-size:13px;color:var(--ink2);margin:0 0 5px;font-weight:700}
+select{padding:9px 12px;border:1px solid #C9D4E2;border-radius:10px;font:inherit;font-size:14px;background:#FFF;color:var(--ink);min-width:240px}
+select:focus,textarea:focus,.evrow input:focus{outline:none;border-color:var(--acc2);box-shadow:0 0 0 3px rgba(46,109,164,.16)}
+textarea{width:100%;min-height:300px;padding:14px;border:1px solid #C9D4E2;border-radius:12px;font:inherit;font-size:14px;line-height:1.8;resize:vertical;background:#FCFDFF;color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:13px}
+button{font:inherit;font-size:14px;font-weight:600;padding:10px 22px;border-radius:10px;border:1px solid transparent;background:linear-gradient(180deg,var(--acc2),var(--acc));color:#fff;cursor:pointer;box-shadow:0 2px 10px rgba(31,78,121,.3);transition:transform .12s,box-shadow .12s,background .15s}
+button:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(31,78,121,.34)}
+button:active{transform:translateY(0)}
+button.ghost{background:#fff;color:var(--acc);border-color:#C9D6E4;box-shadow:none}
+button.ghost:hover{background:var(--acc-soft);border-color:var(--acc2);box-shadow:0 3px 8px rgba(31,78,121,.12)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.hint{color:var(--ink3);font-size:12px}
+.stat{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 14px;font-size:13px;color:var(--ink2)}
+.stat>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 16px;box-shadow:var(--shadow)}
+.stat b{font-size:19px;color:var(--acc)}
+.group{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:14px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.group h3{margin:0 0 10px;font-size:15.5px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.group h3 span{font-size:12px;color:var(--ink2);font-weight:600;background:#F0F3F9;border:1px solid var(--line);border-radius:999px;padding:2px 11px;white-space:nowrap}
+#result .group:nth-of-type(1):not(:only-child){border-left-color:#C2453A}
+#result .group:nth-of-type(2){border-left-color:#D97A26}
+#result .group:nth-of-type(3){border-left-color:#7A5AAF}
+#result .group:nth-of-type(4){border-left-color:#C2506E}
+#result .group:nth-of-type(5){border-left-color:#2A8C8C}
+#result .group:nth-of-type(6){border-left-color:#3D8F5F}
+.hit{border-top:1px dashed var(--line);padding:10px 0 4px}
+.hit:first-of-type{border-top:0}
+.quote{background:#FBF6EC;border-left:3px solid #DFB36C;border-radius:0 8px 8px 0;padding:8px 12px;font-size:13.5px;margin:4px 0 6px;word-break:break-word}
+.quote em{background:#FFE1A8;color:#6E4300;font-style:normal;font-weight:700;border-radius:3px;padding:0 2px}
+.fix{font-size:13px;color:var(--ink2)}
+.fix b{color:var(--ok)}
+.empty{color:var(--ink3);font-size:13px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:960px){.cols{grid-template-columns:1fr}}
+.evrow{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.evrow .evno{font-size:12.5px;font-weight:700;color:var(--acc);background:var(--acc-soft);border:1px solid #D3E0EE;white-space:nowrap;min-width:56px;text-align:center;padding:5px 6px;border-radius:8px}
+.evrow input{flex:1;padding:8px 12px;border:1px solid #C9D4E2;border-radius:10px;font:inherit;font-size:13px;background:#FCFDFF;color:var(--ink)}
+.evrow a{cursor:pointer;color:var(--ink3);font-size:15px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;flex:none}
+.evrow a:hover{color:var(--warn);background:#F6E3DC}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{border-top:1px dashed var(--line);padding:10px 8px;font-size:13.5px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border-radius:10px}
+.chk li:first-child{border-top:0}
+.chk li:hover{background:#F5F8FC}
+.chk input{margin-top:4px;width:16px;height:16px;accent-color:var(--acc);flex:none}
+.chk .nm{font-weight:700}
+.chk .cp{color:var(--warn);font-size:12px;white-space:nowrap;background:#FDF0EC;border:1px solid #EBC7BC;border-radius:999px;padding:0 8px;margin-left:6px}
+.chk .wh{color:var(--ink3);font-size:12px;display:block;margin-top:1px}
+.chk li.done{background:#F3F9F5}
+.chk li.done .nm{color:var(--ink3);text-decoration:line-through}
+.prog{font-size:13px;color:var(--ink2);margin-top:12px;background:var(--acc-soft);border:1px solid #D3E0EE;border-radius:10px;padding:8px 13px}
+.prog b{color:var(--acc);font-size:15px}
+.notewarn{background:#FFF8EC;border:1px solid #EFE0C8;border-left:4px solid #D9A026;border-radius:10px;padding:9px 13px;font-size:12.5px;color:#7A6242;margin-top:12px}
+.sug{list-style:none;margin:0;padding:0}
+.sug li{display:flex;gap:12px;padding:11px 4px;border-top:1px dashed var(--line);font-size:13.5px;align-items:flex-start}
+.sug li:first-child{border-top:0}
+.sugtag{flex:none;background:var(--acc-soft);color:var(--acc);border:1px solid #D3E0EE;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700;white-space:nowrap;margin-top:2px}
+.sug .sugtxt b{color:var(--ink)}
+.how{margin:8px 0 0;padding:0;list-style:none}
+.how li{padding:8px 4px;border-top:1px dashed var(--line);font-size:13.5px}
+.how li:first-child{border-top:0}
+.how b{color:var(--acc)}
+.pb-t{font-weight:700;font-size:14px;margin:18px 0 4px;display:flex;align-items:center;gap:8px}
+.pb-t::before{content:"";flex:none;width:6px;height:16px;border-radius:3px;background:linear-gradient(180deg,var(--acc2),var(--acc))}
+.pb-note{color:var(--ink3);font-size:12.5px;margin:0 0 8px}
+.promptbox textarea{min-height:0;font-size:13px;line-height:1.75;background:#FBFCFE;margin:4px 0 12px;cursor:text}
+.evg{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:#FCFDFF;overflow:hidden}
+.evg summary{cursor:pointer;padding:11px 14px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center;background:#F5F8FC;list-style:none}
+.evg summary::-webkit-details-marker{display:none}
+.evg summary::after{content:"展开 ▾";font-size:12px;color:var(--ink3);font-weight:400}
+.evg[open] summary::after{content:"收起 ▴"}
+.evg[open] summary{border-bottom:1px solid var(--line)}
+.evg ul{margin:0;padding:0;list-style:none}
+.evg li{padding:11px 14px;border-top:1px dashed var(--line);font-size:13.5px;line-height:1.75}
+.evg li:first-child{border-top:0}
+.evg .alt,.how .alt{color:#7A6242;background:#FFF8EC;border-radius:6px;padding:5px 10px;margin-top:6px;font-size:12.5px;display:block}
+.foot{color:var(--ink3);font-size:12.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:14px;line-height:1.9}
+.foot2{max-width:1160px;margin:0 auto 46px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3);line-height:1.9}
+@media(max-width:640px){.hero{padding:26px 16px 56px}h1{font-size:22px}.logo{width:44px;height:44px;border-radius:12px}.logo svg{width:24px;height:24px}.panel{padding:16px 14px}.wrap{padding:0 14px 24px}.foot2{margin-left:14px;margin-right:14px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <div class="logo"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5v15"/><path d="M8.5 19.5h7"/><path d="M5 7.5h14"/><path d="M12 4.5 5 7.5"/><path d="m12 4.5 7 3"/><path d="M5 7.5 2.9 12.4a2.9 2.9 0 0 0 4.2 0L5 7.5z"/><path d="m19 7.5-2.1 4.9a2.9 2.9 0 0 0 4.2 0l-2.1-4.9z"/></svg></div>
+    <div class="hero-t">
+      <h1>诉讼材料自检</h1>
+      <div class="sub">给要打官司、又没请律师的你：起诉状/答辩状写完，先自查一遍材料齐不齐、话说得规范不规范。核心规矩：<b>每一条事实都要挂上证据编号</b>，挂不上就是"无据陈述"，法官不会采信。</div>
+    </div>
+    <div class="chips"><span class="chip">本机运行</span><span class="chip">文字不上传</span><span class="chip">完全不联网</span></div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="bound">本工具只做标记与提醒，不替你判断；结果请人工复核后再对外使用。<br>⚠ 本工具只做材料完整性与表述规范性检查，不替代律师，不构成法律意见。具体法律问题请咨询律师或拨打公共法律服务热线 12348。</div>
+
+  <div class="panel">
+    <h2>一、材料清单（按纠纷类型，勾着备）</h2>
+    <div class="why">只列流程和材料层面：备什么、备几份、去哪找。具体到你的案子，以受理法院立案窗口的要求为准。</div>
+    <label for="dtype">纠纷类型</label>
+    <select id="dtype"></select>
+    <ul class="chk" id="chklist"></ul>
+    <div class="prog" id="prog"></div>
+    <div id="typenote"></div>
+  </div>
+
+  <div class="cols">
+    <div class="panel">
+      <h2>二、证据目录 + 材料</h2>
+      <div class="why">左边先把证据一条条登记（会自动编号），再把起诉状/答辩状整段粘进下面。正文里的事实要在句尾标（证据1）或【见证据一】，中文数字编号也认。</div>
+      <label>证据目录（名称建议写清楚，如：借条原件）</label>
+      <div id="evlist"></div>
+      <div class="row" style="margin-top:4px"><button id="evadd" class="ghost">＋ 添加一条证据</button><span class="hint" id="evstate"></span></div>
+      <label style="margin-top:14px">材料正文（起诉状 / 答辩状 / 仲裁申请书）</label>
+      <textarea id="src" placeholder="把起诉状/答辩状整段粘进来。当事人信息、诉讼请求、事实与理由、证据目录……有什么粘什么，工具会告诉你缺什么。"></textarea>
+      <div class="row">
+        <button id="run">开始检查</button>
+        <button id="clr" class="ghost">清空</button>
+        <button id="copy" class="ghost" disabled>复制检查报告</button>
+        <span class="hint" id="state"></span>
+      </div>
+    </div>
+
+    <div id="right">
+      <div id="stat" class="stat" style="display:none"></div>
+      <div id="result"><div class="group"><h3>检查报告<span>还没开始</span></h3><div class="empty">粘入材料并点「开始检查」后，这里会列出：缺项、无据陈述、套话、情绪化表述，以及一份"待补清单"。</div></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>证据收集指南（缺了别慌，大多有替代）</h2>
+    <div class="why">按纠纷类型列出常要收集的资料；每条附「没有也不慌」的替代办法。都只到流程和材料层面，具体到你的案子以受理法院立案窗口的要求为准。</div>
+    <details class="evg">
+      <summary>房屋租赁（退租、押金纠纷）</summary>
+      <ul>
+        <li><b>租赁合同</b> —— 证明租期、租金、押金数额和退租条款。<span class="alt">没有也不慌：没签书面合同的，租金转账备注、与房东/中介的聊天记录、小区物业登记都能佐证租约关系；合同在房东手里的，用自己留存的照片或签约时的记录。</span></li>
+        <li><b>押金支付凭证</b> —— 转账记录或收条，证明押金交了多少。<span class="alt">没有收条也不慌：银行/微信/支付宝流水能查到这笔支出就截图保存；现金支付且没写收条的，找房东当时确认收钱的聊天或通话录音。</span></li>
+        <li><b>房屋交接/现状照片视频</b> —— 证明退租时房屋状况、有没有损坏。<span class="alt">当时没拍也不慌：退租前后与房东沟通房屋问题的聊天记录、报修记录、物业记录都可以补证。</span></li>
+        <li><b>催退押金的记录</b> —— 微信/短信/通话录音，证明你主张过退押金。<span class="alt">还没催过也不慌：先补发一条书面催告（微信或短信）并截屏保存，日期从此起算。</span></li>
+        <li><b>水电燃气结清凭证</b> —— 证明费用已结清，避免被反扣。<span class="alt">没有也不慌：缴费 APP 记录、账单截图可以补。</span></li>
+      </ul>
+    </details>
+    <details class="evg">
+      <summary>民间借贷</summary>
+      <ul>
+        <li><b>借条 / 欠条</b> —— 证明双方有借贷的约定。<span class="alt">没有书面借条也不慌：关于借款的聊天记录、对方承认借钱的通话录音同样可以佐证。</span></li>
+        <li><b>转账凭证</b> —— 证明钱实际交付。<span class="alt">现金交付没有凭证也不慌：自己的取现记录＋交付前后的聊天/录音可以佐证；也可以请对方补写收条，或在聊天里让对方确认收到。</span></li>
+        <li><b>催款记录</b> —— 证明你主张过权利。<span class="alt">没有也不慌：现在补发催款消息并保存，或打电话并录音。</span></li>
+        <li><b>利息约定凭证</b> —— 书面约定或聊天里关于利息的对话。<span class="alt">没有书面约定也不慌：聊天记录中的利息对话可以留作凭证。</span></li>
+      </ul>
+    </details>
+    <details class="evg">
+      <summary>劳动争议</summary>
+      <ul>
+        <li><b>劳动合同</b> —— 证明用工关系和约定条件。<span class="alt">没签合同、合同在单位手里也不慌：工牌、排班表、工作群通知、社保缴费记录、工资流水都能佐证用工。</span></li>
+        <li><b>工资流水</b> —— 证明收入标准。<span class="alt">现金发放也不慌：签收单、工资条、与老板或人事核对工资的聊天记录可以补证。</span></li>
+        <li><b>社保缴费记录</b> —— 当地人社 APP、支付宝可导出。<span class="alt">查不到也不慌：带身份证去社保窗口打印。</span></li>
+        <li><b>考勤 / 加班记录</b> —— 打卡截图、排班表、工作群通知。<span class="alt">自己没留存也不慌：工作群里翻聊天记录截图，打卡设备记录可请单位提供。</span></li>
+        <li><b>离职 / 辞退证明</b> —— 辞退通知书或离职证明。<span class="alt">口头辞退也不慌：与老板、人事的聊天或录音可以佐证；主动离职的保存离职申请记录。</span></li>
+      </ul>
+    </details>
+    <details class="evg">
+      <summary>消费纠纷</summary>
+      <ul>
+        <li><b>订单截图</b> —— 平台订单页整页截图，含订单号。<span class="alt">订单已删除也不慌：平台 App 的「历史订单」一般还能找回，或找支付记录反查。</span></li>
+        <li><b>付款记录</b> —— 账单里找到该笔交易。<span class="alt">没有也不慌：微信/支付宝/银行卡账单均可重新导出。</span></li>
+        <li><b>商品问题照片/视频</b> —— 证明商品状况。<span class="alt">别删原始文件：拍摄时间等信息要保留，翻拍不如原件。</span></li>
+        <li><b>与商家沟通记录</b> —— 客服聊天、电话录音。<span class="alt">只有口头沟通也不慌：先在在线客服用文字把问题确认一遍，再进行下一步。</span></li>
+        <li><b>12315 投诉记录</b> —— 投诉过的话，保存编号和处理结果截图。</li>
+      </ul>
+    </details>
+    <details class="evg">
+      <summary>交通事故</summary>
+      <ul>
+        <li><b>道路交通事故认定书</b> —— 交警队出具，关键材料。<span class="alt">丢了也不慌：去出警的交警队补。</span></li>
+        <li><b>病历 / 诊断证明</b> —— 治疗材料按时间排好。<span class="alt">门诊病历丢了也不慌：去医院病案室申请复印。</span></li>
+        <li><b>医疗费票据</b> —— 原件，自费药也留票据。<span class="alt">发票丢了也不慌：去医院收费窗口咨询补办或开缴费证明。</span></li>
+        <li><b>误工证明</b> —— 单位盖章证明＋工资流水。<span class="alt">单位不肯盖章也不慌：工资流水、个税记录可以佐证收入。</span></li>
+        <li><b>现场照片 / 记录仪视频</b> —— 证明事故经过。<span class="alt">现场没拍也不慌：行车记录仪视频、路口监控（可向交警队申请调取）可以补。</span></li>
+      </ul>
+    </details>
+    <details class="evg">
+      <summary>婚姻家庭</summary>
+      <ul>
+        <li><b>结婚证</b> —— 证明婚姻关系。<span class="alt">丢失也不慌：到民政局补办或开婚姻登记证明。</span></li>
+        <li><b>子女出生证明</b> —— 涉及抚养事项常用。<span class="alt">丢了也不慌：户口本可以佐证亲子关系，也可向原签发机构咨询补办，以当地要求为准。</span></li>
+        <li><b>财产凭证</b> —— 房产证、车辆登记、存款账户信息。<span class="alt">手里没有也不慌：不动产登记信息可凭身份证到登记中心查询打印，线上/窗口渠道以当地为准。</span></li>
+        <li><b>感情破裂相关记录</b> —— 分居记录、聊天记录、报警回执、告诫书等。<span class="alt">平时没留存也不慌：从现在起注意保存相关记录。</span></li>
+        <li><b>彩礼 / 嫁妆凭证</b> —— 转账记录、购物发票。<span class="alt">没有发票也不慌：转账记录、聊天里关于彩礼的商量过程都可以留证。</span></li>
+      </ul>
+    </details>
+    <div class="notewarn">提示：以上为收集资料的一般参考，不构成法律意见；你的案子具体备什么、备几份，以受理法院立案窗口的要求为准。</div>
+  </div>
+
+  <div class="panel">
+    <h2>公开案例里的四条经验（只谈材料，不谈输赢）</h2>
+    <div class="why">从近年公开报道的大案里蒸馏出来的共性问题，都落在流程与材料层面。不构成法律意见，也不预测任何案件的输赢。</div>
+    <ul class="how">
+      <li><b>① 协议和规则本身就是证据</b> —— 和平台、公司有纠纷时，用户协议、平台规则、会员条款要打印出来放进证据目录：你和对方之间的权利义务，多数写在这份你注册时点过「同意」的文件里。<span class="alt">案例参照：2021 年多起游戏交易平台被诉案中，法院重点审查的就是用户协议怎么约定账号与虚拟物品的归属。</span></li>
+      <li><b>② 对方身份先核实</b> —— 企业被告要写工商登记的全称（别用简称、别写错字），法定代表人、注册地址可以在国家企业信用信息公示系统查询。<span class="alt">案例参照：2020 年「老干妈被起诉」反转案，起因正是有人伪造公章冒充签约方——连大公司法务都差点被假身份骗过。</span></li>
+      <li><b>③ 主张的权利要写对名字</b> —— 法律上「隐私」「个人信息」「虚拟财产」是不同概念，保护范围不一样。拿不准你遇到的事在法律上算什么，先通过 12348 咨询或官方普法渠道弄清，再动笔写起诉状。<span class="alt">案例参照：2021 年「微信好友关系」隐私案，法院认定好友关系不属于个人隐私，用户败诉——主张的概念没套对，事实再多也难支撑。</span></li>
+      <li><b>④ 原始载体别删，别只留截图</b> —— 聊天记录、录屏、转账流水、原始照片视频都要保住原件；截图尽量带时间、对方身份信息。<span class="alt">案例参照：2021 年用户被封号起诉平台案中，法院以平台「证据不足以证明违规」判决解封账号——证据链是否完整，对双方都一样关键。</span></li>
+    </ul>
+    <div class="notewarn">提示：以上为公开报道案例的共性观察，属一般经验提示，不构成法律意见；你的案子以证据和受理法院的认定为准。</div>
+  </div>
+
+  <div class="panel">
+    <h2>律师与法律帮助（没钱也有办法）</h2>
+    <div class="why">这里只列渠道和核实办法，不推荐任何具体律师；要不要请律师、请谁，由你根据案情和预算决定。</div>
+    <ul class="sug">
+      <li><span class="sugtag">免费</span><div class="sugtxt"><b>法律援助——经济困难可以免费请律师</b> —— 先拨 12348 咨询并问申请条件，符合条件可向当地法律援助中心申请免费的律师帮助；劳动报酬、工伤等事项通常在优先受理范围内，具体条件以当地公布为准。</div></li>
+      <li><span class="sugtag">帮手</span><div class="sugtxt"><b>群团组织——对应类型的免费帮手</b> —— 劳动争议可找工会、消费纠纷可找消协、涉妇女儿童权益可找妇联、涉残疾人事项可找残联；这些组织大多提供免费咨询，部分能协助维权。</div></li>
+      <li><span class="sugtag">选人</span><div class="sugtxt"><b>真要请律师：先核实，再签约</b> —— ① 通过 12348 或当地司法局渠道核实律师执业信息，确认人和证对得上；② 签书面委托合同、费用交到律所对公账户并开发票，别转给个人；③ 费用谈清写进合同：按件还是按阶段、含不含差旅、中途解除怎么算。个别案件类型或合同约定下律师费可由对方承担，是否适用请律师确认。</div></li>
+      <li><span class="sugtag">自理</span><div class="sugtxt"><b>自己打官司完全可以</b> —— 民事案件不强制请律师，本工具就是为自办诉讼准备的：按上面清单备齐材料、每句事实挂证据编号、开庭按时到，流程性工作多数自己能完成；案情复杂或金额很大时，再考虑法律援助或委托律师。</div></li>
+    </ul>
+    <div class="notewarn">提示：以上为渠道与流程信息，不构成法律意见；本工具不推荐、不评价任何律师或机构。具体法律问题请咨询律师或拨打公共法律服务热线 12348。</div>
+  </div>
+
+  <div class="panel">
+    <h2>投诉建议渠道（诉讼之外也能反映问题）</h2>
+    <div class="why">这里只列渠道信息，不判断你的事该走诉讼还是走投诉——怎么选由你自己定，必要时咨询律师。渠道和受理范围以官方公布为准。</div>
+    <ul class="sug">
+      <li><span class="sugtag">电话</span><div class="sugtxt"><b>12345 政务服务便民热线</b> —— 政务服务、公共服务类问题的投诉与建议都能反映。杭州本地直拨 12345；外地拨打可加区号 0571。</div></li>
+      <li><span class="sugtag">建议</span><div class="sugtxt"><b>杭州市人民建议征集（人民建议箱）</b> —— 对杭州公共政策、城市治理有意见建议的，可通过人民建议征集渠道提交：12345 可转建议渠道，也可经"浙里办"APP、浙江政务服务网上的"人民建议征集"入口提交，具体以官方公布为准。<b>注意：这类专门入口目前只在部分地区开通（杭州、浙江等地有），不是所有城市都有。</b></div></li>
+      <li><span class="sugtag">兜底</span><div class="sugtxt"><b>你所在地区没有人民建议箱？别慌，还有这些办法</b> —— ① 全国任何地方拨 12345 都能提建议，热线受理建议类诉求后会转给相关部门处理；② 当地信访渠道（网上信访平台、政府官网的领导信箱等）同样接收意见建议；③ 各地政务网的「互动交流」板块大多有留言入口。渠道以你所在地官方公布为准。</div></li>
+    </ul>
+    <div class="pb-t">怎么写：说清这五样（打 12345、提人民建议都通用）</div>
+    <ul class="how">
+      <li><b>① 一句话概括</b> —— 先说清「谁、遇到了什么事」，让对方 10 秒明白。</li>
+      <li><b>② 经过按时间顺序</b> —— 什么时间、在什么地点、涉及哪个单位/商家、发生了什么，一条一条写。</li>
+      <li><b>③ 诉求写具体</b> —— 要解决什么、希望做到什么程度，别只写「讨个说法」。</li>
+      <li><b>④ 只写事实和数字</b> —— 不带情绪化词语，有金额、日期、编号的都写上。</li>
+      <li><b>⑤ 留联系方式、记工单号</b> —— 登记完把工单号/回执抄下来，方便跟进。</li>
+    </ul>
+    <div class="pb-t">不会写？复制提示词去问 AI，让它帮你起草</div>
+    <div class="pb-note">下面两个文本框：点一下全选，Ctrl+C 复制，粘到任意 AI 对话框，把「__」处换成你的实际情况再发送。手机上长按也可全选复制。</div>
+    <div class="promptbox">
+      <label for="p12345">提示词 ① 打 12345 投诉</label>
+      <textarea id="p12345" readonly rows="9" onclick="this.select()" title="点击全选，Ctrl+C 复制">请帮我写一份打到 12345 热线的投诉登记内容。我只提供下面这些素材，没给我的信息不要编造；哪里空着没填，先问我再写。
+【涉及哪个单位或商家】：__
+【事情经过（时间、地点、发生了什么）】：__
+【我已经沟通过什么】：__
+【我要对方解决什么】：__
+写法要求：开头一句话概括事项；经过按时间顺序分条写，只写事实和数字，不带情绪化词语；诉求写具体、可执行；结尾留我的联系方式占位；全文 300 字以内，适合电话或在线登记。</textarea>
+      <label for="psug">提示词 ② 提交人民建议</label>
+      <textarea id="psug" readonly rows="8" onclick="this.select()" title="点击全选，Ctrl+C 复制">请帮我写一条提交给杭州市人民建议征集的建议。我只提供素材：【我看到的问题】：__【我的建议想法】：__。没给我的信息不要编造，缺什么先问我。
+写法要求：建议主题一句话；现状与问题只写我提供的事实、不夸大；具体建议分条写、可操作，尽量写清谁来做、怎么做；预期效果一两句；语气平和，全文 500 字以内。</textarea>
+    </div>
+    <div class="notewarn">提示：AI 只帮你起草，可能写错或编造，提交前务必逐句核对事实，以官方受理要求为准。以上渠道信息不构成法律意见；具体法律问题请咨询律师或拨打公共法律服务热线 12348。</div>
+  </div>
+
+  <div class="foot">
+    本工具只做材料完整性与表述规范性检查，不替代律师，不构成法律意见。具体法律问题请咨询律师或拨打公共法律服务热线 12348。<br>
+    诉讼材料自检 · 单文件网页，双击即用 ｜ 说明：本工具在你本机浏览器里跑，文字不上传、不联网。
+  </div>
+</div>
+
+<script>
+const CFG = {
+  "title": "诉讼材料自检",
+  "max_show": 12,
+  /* 套话无信息：情绪和定性代替了事实 */
+  "cliche_words": ["严重侵害合法权益","侵害了我的合法权益","侵害其合法权益","侵害原告合法权益","侵害被告合法权益","性质极其恶劣","性质实在恶劣","情节严重","情节特别严重","影响恶劣","造成了恶劣影响","造成恶劣影响","影响极其恶劣","忍无可忍","是可忍孰不可忍","主观恶意","恶意至极","后果严重","后果十分严重"],
+  /* 情绪化表述：法庭上无效 */
+  "emotion_words": ["欺人太甚","天理难容","丧尽天良","伤天害理","无耻","卑鄙","禽兽不如","人神共愤","罪该万死","不得好死","可恶","可恨","可气","无良","黑心","狼心狗肺","丧心病狂","可耻","简直不是人","嚣张","目中无人","颠倒黑白","倒打一耙"],
+  /* 事实动词：出现这些词的句子像在陈述事实 */
+  "fact_verbs": ["借","贷","欠","还款","支付","转账","汇款","签订","签署","签","出具","交付","发货","收货","收到","入职","离职","辞退","开除","工资","押金","租金","购买","下单","退货","退款","维修","碰撞","撞","住院","治疗","结婚","登记结婚","分居","约定","承诺","催","交涉","送达","赔","违约","逾期","认定"],
+  /* 事实 → 去哪找证据 */
+  "hint_rules": [
+    ["转账","汇款","流水","账单","微信","支付宝", "银行柜台打流水，或微信/支付宝里导出账单（手机原始记录别删，开庭可能要核对原件）"],
+    ["借条","欠条","借据", "借条原件自己收好，交复印件；没有借条的，找关于借款的聊天记录＋催款记录"],
+    ["合同","协议", "合同原件；在对方手里的，找签约时的拍照、邮件、快递单"],
+    ["工资","薪","劳动报酬", "银行流水的工资入账记录、工资条、劳动合同"],
+    ["劳动合同","入职","离职","辞退","开除","加班","考勤","用工", "劳动合同、社保缴费记录（当地人社APP/支付宝可查）、考勤截图、离职证明、与老板或人事的聊天记录"],
+    ["租金","押金","租赁","房东","租客", "租赁合同、押金和租金的转账记录或收条、房屋交接单或现状照片"],
+    ["发货","快递","物流","订单","购买","商品","退货","退款", "订单截图、付款记录、与客服的聊天记录、商品照片或视频"],
+    ["事故","碰撞","撞","交警","责任认定", "交警队出具的《道路交通事故认定书》（关键材料，丢了去交警队补）"],
+    ["住院","医疗","伤","病历","医药","诊断", "病历、诊断证明、医疗费发票原件；做了鉴定的带鉴定意见"],
+    ["结婚","离婚","夫妻","共同财产","彩礼","嫁妆", "结婚证、房产/车辆登记信息、彩礼嫁妆的转账或购物凭证"],
+    ["聊天","微信记录","短信","通话","录音", "手机原始载体别删；截图要能看到对方号码或昵称；关键记录可以做公证"],
+    ["收据","发票","凭证", "原件；电子发票打印出来即可"]
+  ],
+  "hint_default": "原件或原始载体自己保存；在对方手里的，用自己的照片、聊天记录、转账记录佐证"
+};
+
+/* 六类纠纷的材料清单（只做流程与材料层面；以立案窗口要求为准） */
+const CHECKLIST = {
+  "民间借贷": {
+    common: true,
+    items: [
+      ["借条 / 欠条 / 借据", "原件自留，交复印件", "没有书面的，找关于借款的聊天记录"],
+      ["转账凭证", "复印件按被告人数＋1", "银行流水柜台可打；微信/支付宝可导出账单"],
+      ["催款记录", "打印或截图", "聊天记录、通话录音、催告函"],
+      ["利息约定凭证", "如有", "书面约定或聊天记录；没约定的利息主张另咨询"]
+    ]
+  },
+  "劳动争议": {
+    common: true,
+    note: "⚠ 流程提醒：劳动争议一般要先经劳动仲裁，对仲裁结果不服才去法院起诉——带仲裁裁决书和送达回证。",
+    items: [
+      ["劳动合同", "原件核验，交复印件", "没签合同的，用工记录、工牌、排班表也能证明用工"],
+      ["工资流水", "银行流水/工资条", "柜台可打；现金发放的找签收记录"],
+      ["社保缴费记录", "1份", "当地人社APP、支付宝社保查询可导出"],
+      ["考勤 / 加班记录", "截图或照片", "打卡记录、排班表、工作群通知"],
+      ["离职证明 / 辞退通知", "原件或截图", "口头辞退的，找与老板/人事的聊天或录音"]
+    ]
+  },
+  "房屋租赁": {
+    common: true,
+    items: [
+      ["租赁合同", "原件核验，交复印件", "口头租赁的，找转账备注、聊天记录"],
+      ["租金 / 押金支付凭证", "复印件按被告人数＋1", "转账记录、收条"],
+      ["房屋交接记录", "照片/交接单", "入住和退租时的房屋现状照片、视频"],
+      ["催告记录", "打印或截图", "催缴租金、要求维修的聊天记录或函件"]
+    ]
+  },
+  "消费纠纷": {
+    common: true,
+    items: [
+      ["订单截图", "1份", "平台订单页整页截图，含订单号"],
+      ["付款记录", "1份", "账单里找到该笔交易"],
+      ["商品问题证据", "照片/视频", "商品实物照片、故障录像，别删原始文件"],
+      ["与商家沟通记录", "打印或截图", "客服聊天、电话录音"],
+      ["12315投诉记录", "如投诉过", "平台投诉编号和处理结果截图"]
+    ]
+  },
+  "交通事故": {
+    common: true,
+    items: [
+      ["道路交通事故认定书", "原件核验，交复印件", "交警队出具，关键材料，丢了可补"],
+      ["病历 / 诊断证明", "医院盖章", "治疗全部材料按时间排好"],
+      ["医疗费票据", "发票原件", "自费药也留票据"],
+      ["误工证明", "单位证明＋工资流水", "扣工资的证明要单位盖章"],
+      ["维修清单 / 发票", "修理厂出具", "定损单也带上"],
+      ["伤残鉴定意见", "如做了鉴定", "有资质的鉴定机构出具"]
+    ]
+  },
+  "婚姻家庭": {
+    common: true,
+    items: [
+      ["结婚证", "原件", "丢失可到民政局补办或开证明"],
+      ["子女出生证明", "复印件", "涉及抚养的带上户口本"],
+      ["财产凭证", "复印件", "房产证、车辆登记、存款账户信息"],
+      ["感情破裂证据", "按需", "分居记录、聊天记录、报警回执、告诫书（如涉及家暴）"],
+      ["彩礼 / 嫁妆凭证", "如涉及", "转账记录、购物发票"]
+    ]
+  }
+};
+/* 所有类型都要备的通用项 */
+const COMMON_ITEMS = [
+  ["起诉状", "正本1份＋副本（被告人数＋1）", "写明当事人信息、诉讼请求、事实与理由；法院立案窗口有样式可参考"],
+  ["原告身份证明", "身份证复印件1份", "本人身份证即可"],
+  ["被告身份信息", "姓名＋身份证号或户籍地址", "从合同、转账记录里找；实在没有，立案后可申请法院调查"],
+  ["证据目录", "1份", "每份证据写一行：名称＋证明内容"],
+  ["送达地址确认书", "立案时现场填", "写自己能收到法院信件的地址和电话"]
+];
+
+const CN = {"零":0,"一":1,"二":2,"两":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9,"十":10};
+const $ = function(s){ return document.querySelector(s); };
+const src = $('#src'), result = $('#result'), statBox = $('#stat');
+
+function esc(s){ return s.replace(/[&<>]/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m]; }); }
+
+function mark(text, word){
+  var i = text.indexOf(word);
+  if(i < 0) return esc(text);
+  return esc(text.slice(0, i)) + '<em>' + esc(word) + '</em>' + esc(text.slice(i + word.length));
+}
+
+function sentences(t){
+  return t.split(/(?<=[。！？；!?;\n])/).map(function(s){ return s.trim(); }).filter(function(s){ return s.length > 0; });
+}
+
+/* 中文数字/阿拉伯数字 → 数值（支持 一~九十九） */
+function cnToNum(str){
+  if(/^[0-9]+$/.test(str)) return parseInt(str, 10);
+  var full = str.replace(/[０-９]/g, function(c){ return String.fromCharCode(c.charCodeAt(0) - 65296); });
+  if(/^[0-9]+$/.test(full)) return parseInt(full, 10);
+  if(full === "十") return 10;
+  var m = full.match(/^(一|二|两|三|四|五|六|七|八|九)?十(一|二|三|四|五|六|七|八|九)?$/);
+  if(m){ var t = m[1] ? CN[m[1]] : 1, o = m[2] ? CN[m[2]] : 0; return t * 10 + o; }
+  return CN[full] != null ? CN[full] : null;
+}
+
+/* 正文里引用的证据编号集合 */
+function evidenceRefs(t){
+  var re = /(证据|附件)\s*([0-9０-９]+|[零一二两三四五六七八九十]{1,3})/g, m, out = [];
+  while((m = re.exec(t)) != null){
+    var n = cnToNum(m[2]);
+    if(n != null && out.indexOf(n) < 0) out.push(n);
+  }
+  return out;
+}
+function hasEvidenceRef(s){ return /(证据|附件)\s*([0-9０-９]+|[零一二两三四五六七八九十]{1,3})/.test(s); }
+
+/* 按关键词给出"去哪找" */
+function hintFor(s){
+  for(var i = 0; i < CFG.hint_rules.length; i++){
+    var rule = CFG.hint_rules[i];
+    for(var j = 0; j < rule.length - 1; j++){
+      if(s.indexOf(rule[j]) >= 0) return rule[rule.length - 1];
+    }
+  }
+  return CFG.hint_default;
+}
+
+/* ========== 材料清单 ========== */
+var curType = "";
+function renderChecklist(type){
+  curType = type;
+  var conf = CHECKLIST[type];
+  var items = COMMON_ITEMS.concat(conf.items || []);
+  var h = '<ul class="chk">';
+  items.forEach(function(it, i){
+    h += '<li data-i="' + i + '"><input type="checkbox" id="ck' + i + '"><span><span class="nm">' + esc(it[0]) + '</span> <span class="cp">' + esc(it[1]) + '</span><span class="wh">' + esc(it[2]) + '</span></span></li>';
+  });
+  h += '</ul>';
+  $('#chklist').innerHTML = h;
+  $('#typenote').innerHTML = conf.note ? '<div class="notewarn">' + esc(conf.note) + '</div>' : '';
+  Array.prototype.forEach.call($('#chklist').querySelectorAll('li'), function(li){
+    li.addEventListener('click', function(e){
+      if(e.target.tagName === 'LI' || e.target.tagName === 'SPAN' || e.target.tagName === 'INPUT'){
+        var box = li.querySelector('input');
+        box.checked = !box.checked;
+        li.className = box.checked ? 'done' : '';
+        updateProg();
+      }
+    });
+  });
+  updateProg();
+}
+function updateProg(){
+  var lis = $('#chklist').querySelectorAll('li');
+  var done = 0;
+  Array.prototype.forEach.call(lis, function(li){ if(li.querySelector('input').checked) done++; });
+  $('#prog').innerHTML = '已备 <b>' + done + '</b> / ' + lis.length + ' 项。勾选只在本页生效，刷新后清零；漏项不影响检查正文。';
+}
+
+/* ========== 证据目录 ========== */
+var evidence = [];
+function renderEvidence(){
+  var h = '';
+  evidence.forEach(function(name, i){
+    h += '<div class="evrow"><span class="evno">证据' + (i + 1) + '</span><input type="text" data-ev="' + i + '" value="' + esc(name) + '" placeholder="证据名称，如：借条原件"><a data-evdel="' + i + '" title="删除这条">×</a></div>';
+  });
+  if(!evidence.length){
+    h = '<div class="hint">还没有登记证据。点下面「＋ 添加一条证据」，或直接在正文里写（证据1）也行——但立案要交证据目录，建议都登记。</div>';
+  }
+  $('#evlist').innerHTML = h;
+  $('#evstate').textContent = evidence.length ? '共 ' + evidence.length + ' 条证据' : '';
+  Array.prototype.forEach.call($('#evlist').querySelectorAll('input[data-ev]'), function(inp){
+    inp.addEventListener('input', function(){ evidence[parseInt(inp.getAttribute('data-ev'), 10)] = inp.value; });
+  });
+  Array.prototype.forEach.call($('#evlist').querySelectorAll('a[data-evdel]'), function(a){
+    a.addEventListener('click', function(){
+      evidence.splice(parseInt(a.getAttribute('data-evdel'), 10), 1);
+      renderEvidence();
+    });
+  });
+}
+
+/* ========== 四类检查 ========== */
+function findWordHits(sents, words){
+  var hits = [];
+  sents.forEach(function(s){
+    words.forEach(function(w){
+      if(w && s.indexOf(w) >= 0) hits.push({ s: s, w: w });
+    });
+  });
+  return hits;
+}
+
+function isClaimish(s){
+  return /判令|判如所请|依法判决|诉讼费|案件受理费/.test(s) || /^[一二三四五六七八九十]+、/.test(s);
+}
+
+function findNoEvidence(sents){
+  var hits = [];
+  sents.forEach(function(s){
+    if(hasEvidenceRef(s)) return;                 /* 已挂证据编号 */
+    if(/^(原告|被告|上诉人|被上诉人|申请人|被申请人|第三人|再审申请人|再审被申请人)[：:]/.test(s)) return; /* 当事人信息行，不需要挂证据 */
+    if(/[:：]$/.test(s) || s.length <= 4) return; /* 标题行/过短 */
+    if(isClaimish(s)) return;                     /* 诉讼请求类不算事实陈述 */
+    var facty = /[0-9０-９]/.test(s);
+    if(!facty){
+      for(var i = 0; i < CFG.fact_verbs.length; i++){
+        if(s.indexOf(CFG.fact_verbs[i]) >= 0){ facty = true; break; }
+      }
+    }
+    if(!facty) return;
+    hits.push({ s: s, w: null });
+  });
+  return hits;
+}
+
+function findMissing(t){
+  var out = [];
+  function add(name, detail){ out.push({ name: name, detail: detail }); }
+  var hasP = /(原告|上诉人|申请人|再审申请人)/.test(t);
+  var hasD = /(被告|被上诉人|被申请人|再审被申请人)/.test(t);
+  if(!(hasP && hasD)){
+    add('缺当事人信息', '开头写清双方：姓名、性别、身份证号、住址、联系电话。被告信息不知道身份证号的，先写姓名＋已知地址。');
+  } else if(!(/身份证|证件号/.test(t) && /(住址|住所|地址|住[^\s，。；,;]{0,15}(路|街|巷|道|号|楼|室|区|县|镇|村|栋|单元|大厦|小区))/.test(t) && /(电话|手机|联系方式|联系)/.test(t))){
+    add('当事人信息不全', '双方都要有：姓名、身份证号、住址、联系电话，缺哪样补哪样。');
+  }
+  if(!/(诉讼请求|请求事项|请求判令|依法判令|判令|诉请|仲裁请求)/.test(t)){
+    add('缺明确的诉讼请求', '单独列一段「诉讼请求」：一条一条写你要法院判什么（还多少钱、确认什么、履行什么），金额写具体数字。');
+  }
+  if(!/(事实与理由|事实及理由|事实：|事实:|事实如下)/.test(t)){
+    add('缺事实与理由', '单独列一段「事实与理由」：按时间顺序写事情经过，每一句事实句尾标（证据N）。');
+  }
+  var refs = evidenceRefs(t);
+  if(!( /(证据目录|证据清单|证据如下|证据材料|证据：|证据:)/.test(t) || refs.length > 0 || evidence.length > 0 )){
+    add('缺证据目录', '把证据列个目录：证据1、证据2……每份写名称和它证明什么。左边的证据目录登记了也会算数。');
+  }
+  return out;
+}
+
+function evidenceCross(t){
+  var out = [];
+  var refs = evidenceRefs(t);
+  var n = evidence.length;
+  if(n > 0){
+    refs.forEach(function(r){
+      if(r > n) out.push({ kind: 'dangling', n: r, msg: '正文提到证据' + r + '，但目录里只登记到证据' + n + '——把这条证据补进目录，或改编号。' });
+    });
+    for(var i = 1; i <= n; i++){
+      if(refs.indexOf(i) < 0){
+        out.push({ kind: 'unused', n: i, msg: '证据' + i + '（' + (evidence[i-1].trim() || '未命名') + '）在正文里没被引用——在相关事实句尾标（证据' + i + '），或检查目录是否多写。' });
+      }
+    }
+  }
+  return out;
+}
+
+function renderGroup(title, tag, innerHtml, emptyText){
+  var h = '<div class="group"><h3>' + title + '<span>' + tag + '</span></h3>';
+  if(!innerHtml || !innerHtml.length){ return h + '<div class="empty">' + emptyText + '</div></div>'; }
+  h += innerHtml + '</div>';
+  return h;
+}
+
+var lastReport = null;
+
+function run(){
+  var t = src.value.trim();
+  if(!t){ $('#state').textContent = '先把材料粘进来'; return; }
+  var sents = sentences(t);
+
+  var missing = findMissing(t);
+  var hNoEv   = findNoEvidence(sents);
+  var hCliche = findWordHits(sents, CFG.cliche_words);
+  var hEmo    = findWordHits(sents, CFG.emotion_words);
+  var cross   = evidenceCross(t);
+
+  var maxShow = CFG.max_show || 12;
+  var html = '';
+
+  /* 一、缺项 */
+  var missHtml = '';
+  missing.slice(0, maxShow).forEach(function(x){
+    missHtml += '<div class="hit"><div class="quote">缺：' + esc(x.name) + '</div><div class="fix"><b>补什么</b>：' + esc(x.detail) + '</div></div>';
+  });
+  html += renderGroup('一、缺项（材料完备性）', '查出 ' + missing.length + ' 处', missHtml, '结构上该有的都有：当事人、诉讼请求、事实与理由、证据目录。');
+
+  /* 二、无据陈述 */
+  var noevHtml = '';
+  var nextNum = evidence.length + 1;
+  hNoEv.slice(0, maxShow).forEach(function(x){
+    noevHtml += '<div class="hit"><div class="quote">' + esc(x.s.slice(0, 120)) + (x.s.length > 120 ? '…' : '') + '</div>' +
+      '<div class="fix"><b>挂证据编号</b>：这句在陈述事实，句尾标上（证据' + nextNum + '）——若还没登记这条证据，去左边目录加上。去哪找：' + esc(hintFor(x.s)) + '。实在拿不出证据的，删掉这句或改成你能证明的说法。</div></div>';
+  });
+  if(hNoEv.length > maxShow){ noevHtml += '<div class="hit empty">还有 ' + (hNoEv.length - maxShow) + ' 处同类，先改上面这几处。</div>'; }
+  html += renderGroup('二、无据陈述（事实没挂证据编号）', '查出 ' + hNoEv.length + ' 处', noevHtml, '每条事实都挂上了证据编号——这是最关键的一关。');
+
+  /* 三、套话无信息 */
+  var clHtml = '';
+  hCliche.slice(0, maxShow).forEach(function(x){
+    clHtml += '<div class="hit"><div class="quote">' + mark(x.s, x.w) + '</div><div class="fix"><b>换成事实</b>：「' + esc(x.w) + '」是情绪和定性，不是事实。改成：谁、什么时间、做了什么、造成多少损失——能写数的都写数。</div></div>';
+  });
+  html += renderGroup('三、套话无信息', '查出 ' + hCliche.length + ' 处', clHtml, '没查出套话。');
+
+  /* 四、情绪化表述 */
+  var emoHtml = '';
+  hEmo.slice(0, maxShow).forEach(function(x){
+    emoHtml += '<div class="hit"><div class="quote">' + mark(x.s, x.w) + '</div><div class="fix"><b>删掉情绪词</b>：法庭不采信情绪表达。把「' + esc(x.w) + '」删掉，这句只留：对方做了什么（时间、地点、方式）＋给你造成的后果。</div></div>';
+  });
+  html += renderGroup('四、情绪化表述', '查出 ' + hEmo.length + ' 处', emoHtml, '没查出情绪化表述。');
+
+  /* 五、证据交叉核对 */
+  var crossHtml = '';
+  cross.forEach(function(x){
+    crossHtml += '<div class="hit"><div class="fix">' + esc(x.msg) + '</div></div>';
+  });
+  html += renderGroup('五、证据交叉核对', cross.length ? '查出 ' + cross.length + ' 处' : (evidence.length ? '目录 ' + evidence.length + ' 条' : '未登记目录'), crossHtml, evidence.length ? '正文引用与证据目录对得上。' : '在左边登记证据目录后，这里会核对正文引用与目录是否对得上。');
+
+  /* 待补清单 */
+  var todo = [];
+  missing.forEach(function(x){ todo.push('【缺项】' + x.name + ' —— ' + x.detail); });
+  hNoEv.slice(0, 8).forEach(function(x){ todo.push('【无据】「' + x.s.slice(0, 40) + (x.s.length > 40 ? '…' : '') + '」—— 句尾标（证据N）；去哪找：' + hintFor(x.s)); });
+  if(hNoEv.length > 8) todo.push('……另有 ' + (hNoEv.length - 8) + ' 处无据陈述，见上文');
+  hCliche.forEach(function(x){ todo.push('【套话】删「' + x.w + '」，换成：谁＋时间＋行为＋损失金额'); });
+  hEmo.forEach(function(x){ todo.push('【情绪】删「' + x.w + '」，只留事实和后果'); });
+  cross.forEach(function(x){ todo.push('【证据】' + x.msg); });
+  var todoHtml = '';
+  todo.slice(0, 20).forEach(function(x, i){ todoHtml += '<div class="hit"><div class="fix">' + (i + 1) + '. ' + esc(x) + '</div></div>'; });
+  if(todo.length > 20){ todoHtml += '<div class="hit empty">还有 ' + (todo.length - 20) + ' 条，见上文各栏。</div>'; }
+  html += renderGroup('待补清单（照着办）', todo.length ? '共 ' + todo.length + ' 条' : '没有待补', todoHtml, '全部通过，没有要补的。');
+
+  result.innerHTML = html;
+
+  var total = missing.length + hNoEv.length + hCliche.length + hEmo.length + cross.length;
+  statBox.style.display = 'flex';
+  statBox.innerHTML = '<div>字数 <b>' + t.replace(/\s/g, '').length + '</b></div>' +
+                      '<div>句子 <b>' + sents.length + '</b></div>' +
+                      '<div>查出待办 <b>' + total + '</b> 条</div>' +
+                      '<div>状态 <b>' + (total === 0 ? '没查出问题' : '照单补充') + '</b></div>';
+  $('#state').textContent = '检查完了。本工具只查材料与表述，不判断案件结果。';
+  lastReport = buildReport(t, missing, hNoEv, hCliche, hEmo, cross, todo);
+  $('#copy').disabled = false;
+  window.__last = { missing: missing, hNoEv: hNoEv, hCliche: hCliche, hEmo: hEmo, cross: cross, total: total };
+}
+
+function buildReport(t, missing, hNoEv, hCliche, hEmo, cross, todo){
+  var lines = [];
+  lines.push('【诉讼材料自检】检查报告');
+  lines.push('检查时间：' + new Date().toLocaleString());
+  lines.push('纠纷类型：' + curType + '（材料清单仅覆盖流程与材料层面）');
+  lines.push('');
+  function sec(name, arr, fn){
+    lines.push('— ' + name + '（' + arr.length + ' 处）');
+    if(!arr.length){ lines.push('  无'); }
+    arr.forEach(function(x, i){ fn(x, i, lines); });
+    lines.push('');
+  }
+  sec('缺项', missing, function(x, i, ls){ ls.push('  ' + (i+1) + '. ' + x.name); ls.push('     补法：' + x.detail); });
+  sec('无据陈述', hNoEv, function(x, i, ls){ ls.push('  ' + (i+1) + '. 原文：' + x.s.slice(0, 60)); ls.push('     改法：句尾标（证据N）；去哪找：' + hintFor(x.s)); });
+  sec('套话无信息', hCliche, function(x, i, ls){ ls.push('  ' + (i+1) + '. 「' + x.w + '」→ 改成：谁＋时间＋行为＋损失金额'); });
+  sec('情绪化表述', hEmo, function(x, i, ls){ ls.push('  ' + (i+1) + '. 「' + x.w + '」→ 删掉，只留事实和后果'); });
+  sec('证据交叉核对', cross, function(x, i, ls){ ls.push('  ' + (i+1) + '. ' + x.msg); });
+  lines.push('— 待补清单（' + todo.length + ' 条）');
+  todo.forEach(function(x, i){ lines.push('  ' + (i+1) + '. ' + x); });
+  lines.push('');
+  lines.push('证据目录（本页登记 ' + evidence.length + ' 条）：');
+  evidence.forEach(function(name, i){ lines.push('  证据' + (i+1) + '：' + (name.trim() || '未命名')); });
+  lines.push('');
+  lines.push('本工具只做材料完整性与表述规范性检查，不替代律师，不构成法律意见。具体法律问题请咨询律师或拨打公共法律服务热线 12348。');
+  return lines.join('\n');
+}
+
+$('#run').addEventListener('click', run);
+$('#clr').addEventListener('click', function(){
+  src.value = ''; result.innerHTML = ''; statBox.style.display = 'none';
+  $('#state').textContent = ''; lastReport = null; $('#copy').disabled = true;
+});
+$('#copy').addEventListener('click', function(){
+  if(!lastReport){ return; }
+  var done = function(){ $('#state').textContent = '检查报告已复制'; };
+  var fail = function(){ $('#state').textContent = '复制没成功，可手动截屏或导出后再试'; };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(lastReport).then(done, fail); }
+    else{
+      var ta = document.createElement('textarea'); ta.value = lastReport; document.body.appendChild(ta); ta.select();
+      var ok = document.execCommand('copy'); ta.remove(); (ok ? done : fail)();
+    }
+  }catch(e){ fail(); }
+});
+
+/* 类型下拉 */
+var dsel = $('#dtype');
+Object.keys(CHECKLIST).forEach(function(k){
+  var opt = document.createElement('option');
+  opt.value = k; opt.textContent = k;
+  dsel.appendChild(opt);
+});
+dsel.addEventListener('change', function(){ renderChecklist(this.value); });
+renderChecklist(Object.keys(CHECKLIST)[0]);
+
+/* 证据目录初始三条，方便上手 */
+evidence = ['', '', ''];
+renderEvidence();
+$('#evadd').addEventListener('click', function(){ evidence.push(''); renderEvidence(); });
+
+/* 自测开关：?selftest=1 → 塞一段含四类问题的探针材料，跑一遍把命中数打到横幅。全 0 说明坏了。 */
+if(location.search.indexOf('selftest') >= 0){
+  evidence = ['探针借条', '探针转账记录'];
+  renderEvidence();
+  src.value = '原告：探针甲，身份证号330101010101010101，住探针路1号，电话13800000000。\n被告：探针乙。\n诉讼请求：判令被告归还借款10000元。\n事实与理由：性质极其恶劣，欺人太甚。被告于2024年1月1日向原告借款10000元，被告当天出具借条。原告多次催要无果。\n证据目录：证据1：探针借条。';
+  run();
+  var b = document.createElement('div');
+  b.id = 'selftest-banner';
+  b.style.cssText = 'background:#1F1B16;color:#FFF;font-size:19px;font-weight:700;padding:13px 16px;border-radius:8px;margin:0 0 14px;line-height:1.5';
+  var L = window.__last;
+  b.textContent = L
+    ? 'SELFTEST 缺项' + L.missing.length + ' / 无据' + L.hNoEv.length + ' / 套话' + L.hCliche.length + ' / 情绪' + L.hEmo.length + ' / 交叉' + L.cross.length
+    : 'SELFTEST FAIL 脚本没跑起来';
+  document.body.insertBefore(b, document.body.firstChild);
+  document.title = b.textContent;
+}
+  </script>
+  <footer class="foot2">诉讼材料自检 · 单文件网页，双击即用，不联网、不上传 ｜ 交付方：浮石录 · AI 工具定制<br>——检查结果由工具生成，人工复核后交付。</footer>
+  </body>
+</html>
